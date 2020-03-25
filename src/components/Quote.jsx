@@ -2,15 +2,21 @@ import React, { Component } from "react";
 
 class Quote extends Component {
     state = {
-        quote: "This app isn't as smart as Chuck Norris"
+        quote: "This app isn't as smart as Chuck Norris..."
     }
     
-    componentDidMount() {
-        setTimeout(() => {
+    async componentDidMount() {
+        try {
+            const response = await fetch('https://api.chucknorris.io/jokes/random?category=dev');
+            const data = await response.json();
             this.setState({
-                quote: "Chuck Norris has a RTX 4080ti!!"
+                quote: data.value
             })
-        }, 2000);
+        } catch (error) {
+            this.setState({
+                quote: error.message
+            })
+        }
     }
 
     render() {
